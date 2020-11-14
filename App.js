@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react"
 
-export default function App() {
+import store from "./src/store/store"
+import { Provider } from "react-redux"
+import { NavigationContainer } from "@react-navigation/native"
+import { createStackNavigator } from "@react-navigation/stack"
+import ListScreen from "./src/components/ListScreen/ListScreen"
+import PhotoScreen from "./src/components/PhotoScreen/PhotoScreen"
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
+
+const Navigation = () => {
+  const Stack = createStackNavigator()
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="List" screenOptions={{ headerShown: true }}>
+        <Stack.Screen options={{ title: "Gallery" }} name="List" component={ListScreen} />
+        <Stack.Screen options={{ title: "" }} name="Photo" component={PhotoScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
